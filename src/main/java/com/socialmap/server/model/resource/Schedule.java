@@ -11,9 +11,9 @@ import java.util.Set;
  */
 @Entity
 public class Schedule {
-    private int id;
-    private String name;
     private Set<Event> events;
+    private int    id;
+    private String name;
 
     @OneToMany
     public Set<Event> getEvents() {

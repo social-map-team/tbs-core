@@ -1,9 +1,9 @@
 package com.socialmap.server.model.resource.good;
 
-import com.socialmap.server.model.social.Comment;
 import com.socialmap.server.model.common.Image;
 import com.socialmap.server.model.common.Video;
 import com.socialmap.server.model.resource.place.Commerce;
+import com.socialmap.server.model.social.Comment;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,31 +16,15 @@ import java.util.Set;
  */
 @Entity
 public class Artwork {
-    private int id;
-    private String name;
-    private String type;
-    private float price;
-    private String description;
-    private Set<Image> images;
-    private Set<Video> videos;
     private Set<Comment> comments;
+    private String       description;
+    private int          id;
+    private Set<Image>   images;
+    private String       name;
+    private float        price;
+    private String       type;
     private Set<Commerce> vendors;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
+    private Set<Video>   videos;
 
     @OneToMany
     public Set<Comment> getComments() {
@@ -51,13 +35,12 @@ public class Artwork {
         this.comments = comments;
     }
 
-    @OneToMany
-    public Set<Commerce> getVendors() {
-        return vendors;
+    public String getDescription() {
+        return description;
     }
 
-    public void setVendors(Set<Commerce> vendors) {
-        this.vendors = vendors;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Id
@@ -70,6 +53,15 @@ public class Artwork {
         this.id = id;
     }
 
+    @OneToMany
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
+    }
+
     public String getName() {
         return name;
     }
@@ -78,21 +70,29 @@ public class Artwork {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public float getPrice() {
+        return price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @OneToMany
-    public Set<Image> getImages() {
-        return images;
+    public Set<Commerce> getVendors() {
+        return vendors;
     }
 
-    public void setImages(Set<Image> images) {
-        this.images = images;
+    public void setVendors(Set<Commerce> vendors) {
+        this.vendors = vendors;
     }
 
     @OneToMany

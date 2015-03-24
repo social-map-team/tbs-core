@@ -12,14 +12,31 @@ import java.util.Set;
  */
 @Entity
 public class SosLog {
-    private int id;
-    private User caller;
-    private Set<Sos> targets;
-    private String reason;
+    private User   caller;
+    private Date   finishTime;
+    private int    id;
     private String location;
-    private Date startTime;
-    private Date finishTime;
+    private String reason;
     private String result;
+    private Date   startTime;
+    private Set<Sos> targets;
+
+    @OneToOne
+    public User getCaller() {
+        return caller;
+    }
+
+    public void setCaller(User caller) {
+        this.caller = caller;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
 
     @Id
     @GeneratedValue
@@ -31,22 +48,12 @@ public class SosLog {
         this.id = id;
     }
 
-    @OneToOne
-    public User getCaller() {
-        return caller;
+    public String getLocation() {
+        return location;
     }
 
-    public void setCaller(User caller) {
-        this.caller = caller;
-    }
-
-    @OneToMany
-    public Set<Sos> getTargets() {
-        return targets;
-    }
-
-    public void setTargets(Set<Sos> targets) {
-        this.targets = targets;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getReason() {
@@ -57,12 +64,12 @@ public class SosLog {
         this.reason = reason;
     }
 
-    public String getLocation() {
-        return location;
+    public String getResult() {
+        return result;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setResult(String result) {
+        this.result = result;
     }
 
     public Date getStartTime() {
@@ -73,19 +80,12 @@ public class SosLog {
         this.startTime = startTime;
     }
 
-    public Date getFinishTime() {
-        return finishTime;
+    @OneToMany
+    public Set<Sos> getTargets() {
+        return targets;
     }
 
-    public void setFinishTime(Date finishTime) {
-        this.finishTime = finishTime;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
+    public void setTargets(Set<Sos> targets) {
+        this.targets = targets;
     }
 }

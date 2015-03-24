@@ -12,7 +12,7 @@
         <Logger name="com.socialmap" level="INFO"/>
         <Logger name="org.hibernate" level="INFO"/>
         <Logger name="org.hibernate.SQL" level="DEBUG"/>
-        <Logger name="org.springframework.security" level="DEBUG"/>
-        <Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG"/>
+        <Logger name="org.springframework.security" level="INFO"/>
+        <Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="INFO"/>
     </Loggers>
 </Configuration>

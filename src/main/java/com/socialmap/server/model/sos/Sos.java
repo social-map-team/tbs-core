@@ -11,10 +11,10 @@ import javax.persistence.Id;
  */
 @Entity
 public class Sos {
-    private int id;
+    private int    id;
+    private boolean isRegisteredUser;
     private String name;
     private String phone;
-    private boolean isRegisteredUser;
 
     @Id
     @GeneratedValue
@@ -42,7 +42,7 @@ public class Sos {
         this.phone = phone;
     }
 
-    public SosTarget toSosTarget(){
+    public SosTarget toSosTarget() {
         SosTarget target = new SosTarget();
         target.setName(name);
         target.setPhone(phone);

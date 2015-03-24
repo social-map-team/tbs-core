@@ -1,5 +1,6 @@
 package com.socialmap.server.config;
 
+import com.socialmap.server.CustomNamingStrategy;
 import com.socialmap.server.service.UserService;
 import com.socialmap.server.utils.App;
 import org.hibernate.SessionFactory;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
@@ -40,26 +42,6 @@ public class AppConfig {
     }
 
     @Bean
-    @Autowired
-    public SessionFactory sessionFactory(DataSource dataSource) {
-        LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource);
-        builder.scanPackages("com.socialmap.server.model");
-        Properties props = new Properties();
-        props.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-        props.put("hibernate.format_sql", "true");
-        props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        props.put("hibernate.globally_quoted_identifiers", "true");
-        builder.addProperties(props);
-        return builder.buildSessionFactory();
-    }
-
-    @Bean
-    @Autowired
-    public HibernateTransactionManager txManager(SessionFactory sessionFactory) {
-        return new HibernateTransactionManager(sessionFactory);
-    }
-
-    @Bean
     public DigestAuthenticationEntryPoint digestEntryPoint() {
         DigestAuthenticationEntryPoint point = new DigestAuthenticationEntryPoint();
         App.realm = env.getProperty("digest.realm");
@@ -79,8 +61,34 @@ public class AppConfig {
     }
 
     @Bean
+    public HibernateExceptionTranslator hibernateExceptionTranslator() {
+        return new HibernateExceptionTranslator();
+    }
+
+    @Bean
     @Autowired
     public HibernateTemplate ht(SessionFactory sessionFactory) {
         return new HibernateTemplate(sessionFactory);
+    }
+
+    @Bean
+    @Autowired
+    public SessionFactory sessionFactory(DataSource dataSource) {
+        LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource);
+        builder.scanPackages("com.socialmap.server.model");
+        Properties props = new Properties();
+        props.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        props.put("hibernate.format_sql", "true");
+        props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        props.put("hibernate.globally_quoted_identifiers", "true");
+        builder.addProperties(props);
+        builder.setNamingStrategy(new CustomNamingStrategy());
+        return builder.buildSessionFactory();
+    }
+
+    @Bean
+    @Autowired
+    public HibernateTransactionManager txManager(SessionFactory sessionFactory) {
+        return new HibernateTransactionManager(sessionFactory);
     }
 }

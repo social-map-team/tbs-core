@@ -10,12 +10,29 @@ import javax.persistence.Lob;
  */
 @Entity
 public class Image {
-    private int id;
-    private String remarks;
     private byte[] data;
-    private int width;//单位像素
-    private int height;
+    private int    height;
+    private int    id;
+    private String remarks;
     private String type;
+    private int    width;//单位像素
+
+    @Lob
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
     @Id
     @GeneratedValue
@@ -35,13 +52,12 @@ public class Image {
         this.remarks = remarks;
     }
 
-    @Lob
-    public byte[] getData() {
-        return data;
+    public String getType() {
+        return type;
     }
 
-    public void setData(byte[] data) {
-        this.data = data;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getWidth() {
@@ -50,21 +66,5 @@ public class Image {
 
     public void setWidth(int width) {
         this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

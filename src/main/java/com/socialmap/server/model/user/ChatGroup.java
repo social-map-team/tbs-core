@@ -12,10 +12,18 @@ import java.util.Set;
  */
 @Entity
 public class ChatGroup {
-    private int id;
+    private Date   createTime;
+    private int    id;
     private Set<User> members;
     private String name;
-    private Date createTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     @Id
     @GeneratedValue
@@ -42,13 +50,5 @@ public class ChatGroup {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 }

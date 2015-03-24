@@ -4,7 +4,6 @@ import com.socialmap.server.model.common.Image;
 import com.socialmap.server.model.user.Role;
 import com.socialmap.server.model.user.User;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.codec.Hex;
 
 import java.security.MessageDigest;
@@ -19,9 +18,6 @@ public class App {
     public static String realm;
     public static Image defaultUserAvatar;
     public static Image defaultUserBgimge;
-    public static User currentUser() {
-        return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
     public static ApplicationContext context;
     public static Map<Integer, Role> roles = new HashMap<Integer, Role>();
 

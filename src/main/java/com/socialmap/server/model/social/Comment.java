@@ -12,12 +12,21 @@ import java.util.Set;
  */
 @Entity
 public class Comment {
-    private int id;
-    private String text;
+    private User   creator;
+    private int    id;
     private Set<Image> images;
-    private Set<Video> videos;
-    private User creator;
     private String target;
+    private String text;
+    private Set<Video> videos;
+
+    @OneToOne
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
 
     @Id
     @GeneratedValue
@@ -29,14 +38,6 @@ public class Comment {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     @OneToMany
     public Set<Image> getImages() {
         return images;
@@ -46,6 +47,22 @@ public class Comment {
         this.images = images;
     }
 
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     @OneToMany
     public Set<Video> getVideos() {
         return videos;
@@ -53,22 +70,5 @@ public class Comment {
 
     public void setVideos(Set<Video> videos) {
         this.videos = videos;
-    }
-
-    @OneToOne
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
     }
 }

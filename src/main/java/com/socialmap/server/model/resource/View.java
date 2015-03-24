@@ -1,8 +1,8 @@
 package com.socialmap.server.model.resource;
 
-import com.socialmap.server.model.social.Comment;
 import com.socialmap.server.model.common.Image;
 import com.socialmap.server.model.common.Video;
+import com.socialmap.server.model.social.Comment;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,33 +16,26 @@ import java.util.Set;
  */
 @Entity
 public class View {
-    private int id;
-    private String name;
-    private String type;
-    private String description;
-    private Set<Image> images;
-    private Set<Video> videos;
-    private String location;
-    private String gov; // 管辖政府
-    private String history;
-    private float price;
     private List<Comment> comments;
-    private String geo; // 地理位置
+    private String     description;
+    private String     geo; // 地理位置
+    private String     gov; // 管辖政府
+    private String     history;
+    private int        id;
+    private Set<Image> images;
+    private String     location;
+    private String     name;
+    private float      price;
+    private String     type;
+    private Set<Video> videos;
 
-    public float getPrice() {
-        return price;
+    @OneToMany
+    public List<Comment> getComments() {
+        return comments;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getDescription() {
@@ -53,30 +46,12 @@ public class View {
         this.description = description;
     }
 
-    @OneToMany
-    public Set<Image> getImages() {
-        return images;
+    public String getGeo() {
+        return geo;
     }
 
-    public void setImages(Set<Image> images) {
-        this.images = images;
-    }
-
-    @OneToMany
-    public Set<Video> getVideos() {
-        return videos;
-    }
-
-    public void setVideos(Set<Video> videos) {
-        this.videos = videos;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
+    public void setGeo(String geo) {
+        this.geo = geo;
     }
 
     public String getGov() {
@@ -95,23 +70,6 @@ public class View {
         this.history = history;
     }
 
-    @OneToMany
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public String getGeo() {
-        return geo;
-    }
-
-    public void setGeo(String geo) {
-        this.geo = geo;
-    }
-
     @Id
     @GeneratedValue
     public int getId() {
@@ -122,11 +80,53 @@ public class View {
         this.id = id;
     }
 
+    @OneToMany
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @OneToMany
+    public Set<Video> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(Set<Video> videos) {
+        this.videos = videos;
     }
 }

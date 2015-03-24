@@ -1,32 +1,32 @@
 package com.socialmap.server.model.report;
 
 import com.socialmap.server.model.common.Image;
-import com.socialmap.server.model.common.Video;
 import com.socialmap.server.model.user.User;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.Set;
 
 /**
  * Created by yy on 3/6/15.
  */
-@Entity
+//@Entity
 public class UserReport {
-    private int id;
-    private User from;
-    private User against;
+    private User   against;
+    private User   from;
+    private int    id;
     private String reason;
     private Set<Image> testifiedImages;
-    private Set<Video> testifiedVideos;
 
-    @Id
-    @GeneratedValue
-    public int getId() {
-        return id;
+    @OneToOne
+    public User getAgainst() {
+        return against;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAgainst(User against) {
+        this.against = against;
     }
 
     @OneToOne
@@ -38,13 +38,14 @@ public class UserReport {
         this.from = from;
     }
 
-    @OneToOne
-    public User getAgainst() {
-        return against;
+    @Id
+    @GeneratedValue
+    public int getId() {
+        return id;
     }
 
-    public void setAgainst(User against) {
-        this.against = against;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getReason() {
@@ -62,14 +63,5 @@ public class UserReport {
 
     public void setTestifiedImages(Set<Image> testifiedImages) {
         this.testifiedImages = testifiedImages;
-    }
-
-    @OneToMany
-    public Set<Video> getTestifiedVideos() {
-        return testifiedVideos;
-    }
-
-    public void setTestifiedVideos(Set<Video> testifiedVideos) {
-        this.testifiedVideos = testifiedVideos;
     }
 }

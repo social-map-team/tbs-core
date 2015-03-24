@@ -14,11 +14,19 @@ import java.util.Set;
  */
 @Entity
 public class Activity {
-    private int id;
-    private String name;
     private String description;
+    private int    id;
     private Set<Image> images;
+    private String name;
     private Set<Video> videos;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Id
     @GeneratedValue
@@ -30,22 +38,6 @@ public class Activity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @OneToMany
     public Set<Image> getImages() {
         return images;
@@ -53,6 +45,14 @@ public class Activity {
 
     public void setImages(Set<Image> images) {
         this.images = images;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @OneToMany

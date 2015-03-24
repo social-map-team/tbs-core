@@ -4,6 +4,7 @@ import com.socialmap.server.model.user.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -11,14 +12,19 @@ import java.util.Set;
  */
 @Entity
 public class PositionSharing {
-    private int id;
-    private String name;
-    private String type;
-    private User sponsor;
-    private Set<User> targets;
-    private Date startTime;
     private Date endTime;
-    private String rendezvous;
+    private int  id;
+    private User sponsor;
+    private Date startTime;
+    private Set<User> targets = new HashSet<>();
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
 
     @Id
     @GeneratedValue
@@ -30,22 +36,6 @@ public class PositionSharing {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @OneToOne
     public User getSponsor() {
         return sponsor;
@@ -53,15 +43,6 @@ public class PositionSharing {
 
     public void setSponsor(User sponsor) {
         this.sponsor = sponsor;
-    }
-
-    @OneToMany
-    public Set<User> getTargets() {
-        return targets;
-    }
-
-    public void setTargets(Set<User> targets) {
-        this.targets = targets;
     }
 
     public Date getStartTime() {
@@ -72,19 +53,15 @@ public class PositionSharing {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    @ManyToMany
+    @JoinTable(joinColumns = {@JoinColumn(name = "position_sharing_id")},
+            inverseJoinColumns = {@JoinColumn(name = "target_user_id")}
+    )
+    public Set<User> getTargets() {
+        return targets;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getRendezvous() {
-        return rendezvous;
-    }
-
-    public void setRendezvous(String rendezvous) {
-        this.rendezvous = rendezvous;
+    public void setTargets(Set<User> targets) {
+        this.targets = targets;
     }
 }

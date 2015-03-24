@@ -21,15 +21,14 @@ import java.net.Socket;
 @Component
 public class ConsoleConnector {
     public static final Logger log = LogManager.getLogger();
-
+    private ConsoleInfo consoleInfo;
+    private ObjectMapper mapper = new ObjectMapper();
     private Thread sos = new Thread(new Runnable() {
         @Override
         public void run() {
 
         }
     });
-    private ConsoleInfo consoleInfo;
-    private ObjectMapper mapper = new ObjectMapper();
 
     public ConsoleConnector() {
         // 启动一个在9090端口监听的线程
@@ -37,8 +36,8 @@ public class ConsoleConnector {
             @Override
             public void run() {
                 try {
-                    log.info("将要在本地9090端口监听");
-                    ServerSocket listener = new ServerSocket(9090);
+                    log.info("将要在本地9091端口监听");
+                    ServerSocket listener = new ServerSocket(9091);
                     while (true) {
                         Socket console;
                         log.info("等待请求的到来");
@@ -68,6 +67,11 @@ public class ConsoleConnector {
         }).start();
     }
 
+    public static class ConsoleInfo {
+        public String address;
+        public int    sosPort;
+    }
+
     public boolean publishSos(final SosRequest request) {
         try {
             Socket socket = new Socket(consoleInfo.address, consoleInfo.sosPort);
@@ -88,11 +92,6 @@ public class ConsoleConnector {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public static class ConsoleInfo {
-        public String address;
-        public int sosPort;
     }
 
 }

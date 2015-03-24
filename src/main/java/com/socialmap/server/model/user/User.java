@@ -6,7 +6,6 @@ import com.socialmap.server.model.common.Image;
 import com.socialmap.server.model.common.Video;
 import com.socialmap.server.model.resource.Team;
 import com.socialmap.server.model.sos.Sos;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,137 +19,42 @@ import java.util.*;
         dynamicInsert = true
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User implements UserDetails, Serializable {
-    private int id;
-    private String username;
-    private String password;
-    private String nickname;
-    private String realname;
-    private String idcard;
-    private float tripYears;
-    private String footprints;
-    private Date birthday;
-    private Gender gender;
-    private Set<Role> authorities = new HashSet<Role>();
-    private Set<Team> teams = new HashSet<Team>();
-    private boolean enabled = true;
+public class User implements Serializable {
     private String about;
     private Image avatar;
     private Image bgimage;
-    private String phone;
-    private String email;
-    private Set<Video> videos = new HashSet<Video>();
-    private Map<String, Sos> soses = new HashMap<String, Sos>();
-    private Date registerTime;
-    private Date lastLoginTime;
-    private Date lastLogoutTime;
-    private int level;
-    private int exp;
-    private String status;// online offline
-    private int securityLevel;
-    private boolean emailValid;
-    private boolean realValid;
+    private Date birthday;
     private Set<ChatGroup> chatGroups = new HashSet<ChatGroup>();
+    private Position currentPosition;
+    private String   email;
+    private boolean  emailValid;
+    private boolean enabled = true;
+    private int     exp;
+    private String  footprints;
+    private Gender  gender;
+    private int     id;
+    private String  idcard;
+    private Date    lastLoginTime;
+    private Date    lastLogoutTime;
+    private int     level;
+    private String  nickname;
+    private String  password;
+    private String  phone;
+    private boolean realValid;
+    private String  realname;
+    private Date    registerTime;
+    private Set<Role> roles = new HashSet<Role>();
+    private int securityLevel;
+    private Map<String, Sos> sosContact = new HashMap<String, Sos>();
+    private String status;// online offline
+    private Set<Team> teams = new HashSet<Team>();
+    private float  tripYears;
+    private String username;
+    private Set<Video> videos = new HashSet<Video>();
 
-    @ManyToMany
-    @JoinTable(joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "chatgroup_id")}
-    )
-    public Set<ChatGroup> getChatGroups() {
-        return chatGroups;
+    public enum Gender {
+        MALE, FEMALE, UNSELECTED
     }
-
-    public void setChatGroups(Set<ChatGroup> chatGroups) {
-        this.chatGroups = chatGroups;
-    }
-
-    public Date getRegisterTime() {
-        return registerTime;
-    }
-
-    public void setRegisterTime(Date registerTime) {
-        this.registerTime = registerTime;
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public Date getLastLogoutTime() {
-        return lastLogoutTime;
-    }
-
-    public void setLastLogoutTime(Date lastLogoutTime) {
-        this.lastLogoutTime = lastLogoutTime;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getExp() {
-        return exp;
-    }
-
-    public void setExp(int exp) {
-        this.exp = exp;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public int getSecurityLevel() {
-        return securityLevel;
-    }
-
-    public void setSecurityLevel(int securityLevel) {
-        this.securityLevel = securityLevel;
-    }
-
-    public boolean isEmailValid() {
-        return emailValid;
-    }
-
-    public void setEmailValid(boolean emailValid) {
-        this.emailValid = emailValid;
-    }
-
-    public boolean isRealValid() {
-        return realValid;
-    }
-
-    public void setRealValid(boolean realValid) {
-        this.realValid = realValid;
-    }
-
-    @ManyToMany
-    @JoinTable(joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "sos_id")}
-    )
-    @MapKey(name = "relationship")
-    public Map<String, Sos> getSoses() {
-        return soses;
-    }
-
-    public void setSoses(Map<String, Sos> soses) {
-        this.soses = soses;
-    }
-
-
-
 
     public String getAbout() {
         return about;
@@ -178,12 +82,32 @@ public class User implements UserDetails, Serializable {
         this.bgimage = bgimage;
     }
 
-    public String getPhone() {
-        return phone;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    @ManyToMany
+    @JoinTable(joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "CHATGROUP_ID")}
+    )
+    public Set<ChatGroup> getChatGroups() {
+        return chatGroups;
+    }
+
+    public void setChatGroups(Set<ChatGroup> chatGroups) {
+        this.chatGroups = chatGroups;
+    }
+
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setCurrentPosition(Position currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
     public String getEmail() {
@@ -194,14 +118,29 @@ public class User implements UserDetails, Serializable {
         this.email = email;
     }
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    public Set<Video> getVideos() {
-        return videos;
+    public int getExp() {
+        return exp;
     }
 
-    public void setVideos(Set<Video> videos) {
-        this.videos = videos;
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+
+    public String getFootprints() {
+        return footprints;
+    }
+
+    public void setFootprints(String footprints) {
+        this.footprints = footprints;
+    }
+
+    @Enumerated(EnumType.STRING)
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     @Id
@@ -214,22 +153,6 @@ public class User implements UserDetails, Serializable {
         this.id = id;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getRealname() {
-        return realname;
-    }
-
-    public void setRealname(String realname) {
-        this.realname = realname;
-    }
-
     public String getIdcard() {
         return idcard;
     }
@@ -238,49 +161,36 @@ public class User implements UserDetails, Serializable {
         this.idcard = idcard;
     }
 
-    public float getTripYears() {
-        return tripYears;
+    public Date getLastLoginTime() {
+        return lastLoginTime;
     }
 
-    public void setTripYears(float tripYears) {
-        this.tripYears = tripYears;
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
-    public String getFootprints() {
-        return footprints;
+    public Date getLastLogoutTime() {
+        return lastLogoutTime;
     }
 
-    public void setFootprints(String footprints) {
-        this.footprints = footprints;
+    public void setLastLogoutTime(Date lastLogoutTime) {
+        this.lastLogoutTime = lastLogoutTime;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public int getLevel() {
+        return level;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setLevel(int level) {
+        this.level = level;
     }
 
-    @Enumerated(EnumType.STRING)
-    public Gender getGender() {
-        return gender;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    @ManyToMany
-    @JoinTable(joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
-    )
-    public Set<Role> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<Role> authorities) {
-        this.authorities = authorities;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     @JsonIgnore
@@ -292,12 +202,119 @@ public class User implements UserDetails, Serializable {
         this.password = password;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
+
+    public Date getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Date registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "USER_ROLE",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE")}
+    )
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public int getSecurityLevel() {
+        return securityLevel;
+    }
+
+    public void setSecurityLevel(int securityLevel) {
+        this.securityLevel = securityLevel;
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "SOS_RELATIONSHIP",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "SOS_ID")}
+    )
+    @MapKeyColumn(name = "RELATIONSHIP")
+    public Map<String, Sos> getSosContact() {
+        return sosContact;
+    }
+
+    public void setSosContact(Map<String, Sos> sosContact) {
+        this.sosContact = sosContact;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @ManyToMany
+    @JoinTable(joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TEAM_ID")}
+    )
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
+    }
+
+    public float getTripYears() {
+        return tripYears;
+    }
+
+    public void setTripYears(float tripYears) {
+        this.tripYears = tripYears;
+    }
+
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @OneToMany
+    @JoinColumn(name = "USER_ID")
+    public Set<Video> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(Set<Video> videos) {
+        this.videos = videos;
+    }
+
+    public boolean isEmailValid() {
+        return emailValid;
+    }
+
+    public void setEmailValid(boolean emailValid) {
+        this.emailValid = emailValid;
     }
 
     public boolean isEnabled() {
@@ -308,35 +325,11 @@ public class User implements UserDetails, Serializable {
         this.enabled = enabled;
     }
 
-    @ManyToMany
-    @JoinTable(joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "team_id")}
-    )
-    public Set<Team> getTeams() {
-        return teams;
+    public boolean isRealValid() {
+        return realValid;
     }
 
-    public void setTeams(Set<Team> teams) {
-        this.teams = teams;
-    }
-
-    @Transient
-    @JsonIgnore
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Transient
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Transient
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    public enum Gender {
-        MALE, FEMALE, UNSELECTED
+    public void setRealValid(boolean realValid) {
+        this.realValid = realValid;
     }
 }

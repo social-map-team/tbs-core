@@ -11,90 +11,22 @@ import java.util.Set;
  */
 @Entity
 public class Team {
-    private int id;
-    private String name;
-    private Set<Schedule> schedules;
-    private float price;
-    private String status;
-    private Date startTime;
-    private Date endTime;
-    private Set<User> members;
+    private int       assemblyCount;
+    private Date      endTime;
+    private int       id;
     private Set<User> leaders;
-    private User sponsor; //发起人
-    private String remarks;
-    private String requirements;
-    private String level;
-    private int sosCount;
-    private int assemblyCount;
-    private int scheduleChangeCount;
-
-    @OneToMany
-    public Set<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
-    }
-
-    @OneToMany
-    public Set<User> getMembers() {
-        return members;
-    }
-
-    public void setMembers(Set<User> members) {
-        this.members = members;
-    }
-
-    @OneToMany
-    public Set<User> getLeaders() {
-        return leaders;
-    }
-
-    public void setLeaders(Set<User> leaders) {
-        this.leaders = leaders;
-    }
-
-    @OneToOne
-    public User getSponsor() {
-        return sponsor;
-    }
-
-    public void setSponsor(User sponsor) {
-        this.sponsor = sponsor;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
-    public String getRequirements() {
-        return requirements;
-    }
-
-    public void setRequirements(String requirements) {
-        this.requirements = requirements;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public int getSosCount() {
-        return sosCount;
-    }
-
-    public void setSosCount(int sosCount) {
-        this.sosCount = sosCount;
-    }
+    private String    level;
+    private Set<User> members;
+    private String    name;
+    private float     price;
+    private String    remarks;
+    private String    requirements;
+    private int       scheduleChangeCount;
+    private Set<Schedule> schedules;
+    private int       sosCount;
+    private User      sponsor; //发起人
+    private Date      startTime;
+    private String    status;
 
     public int getAssemblyCount() {
         return assemblyCount;
@@ -102,38 +34,6 @@ public class Team {
 
     public void setAssemblyCount(int assemblyCount) {
         this.assemblyCount = assemblyCount;
-    }
-
-    public int getScheduleChangeCount() {
-        return scheduleChangeCount;
-    }
-
-    public void setScheduleChangeCount(int scheduleChangeCount) {
-        this.scheduleChangeCount = scheduleChangeCount;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
     }
 
     public Date getEndTime() {
@@ -154,11 +54,111 @@ public class Team {
         this.id = id;
     }
 
+    @OneToMany
+    public Set<User> getLeaders() {
+        return leaders;
+    }
+
+    public void setLeaders(Set<User> leaders) {
+        this.leaders = leaders;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    @OneToMany
+    public Set<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<User> members) {
+        this.members = members;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getRequirements() {
+        return requirements;
+    }
+
+    public void setRequirements(String requirements) {
+        this.requirements = requirements;
+    }
+
+    public int getScheduleChangeCount() {
+        return scheduleChangeCount;
+    }
+
+    public void setScheduleChangeCount(int scheduleChangeCount) {
+        this.scheduleChangeCount = scheduleChangeCount;
+    }
+
+    @OneToMany
+    public Set<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Set<Schedule> schedules) {
+        this.schedules = schedules;
+    }
+
+    public int getSosCount() {
+        return sosCount;
+    }
+
+    public void setSosCount(int sosCount) {
+        this.sosCount = sosCount;
+    }
+
+    @OneToOne
+    public User getSponsor() {
+        return sponsor;
+    }
+
+    public void setSponsor(User sponsor) {
+        this.sponsor = sponsor;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

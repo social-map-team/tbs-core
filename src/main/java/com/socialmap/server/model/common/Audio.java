@@ -3,7 +3,6 @@ package com.socialmap.server.model.common;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Set;
 
 /**
  * Created by yy on 3/6/15.
