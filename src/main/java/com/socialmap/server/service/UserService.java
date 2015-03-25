@@ -7,5 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * Created by yy on 3/4/15.
  */
 public interface UserService extends UserDetailsService {
-    public User getCurrentUser();
+    User findUserById(int id);
+
+    User getCurrentUser();
 }

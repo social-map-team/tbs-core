@@ -1,6 +1,6 @@
 package com.socialmap.server.model.log;
 
-import com.socialmap.server.model.sos.Sos;
+import com.socialmap.server.model.sos.SosContact;
 import com.socialmap.server.model.user.User;
 
 import javax.persistence.*;
@@ -12,14 +12,14 @@ import java.util.Set;
  */
 @Entity
 public class SosLog {
-    private User   caller;
-    private Date   finishTime;
-    private int    id;
-    private String location;
-    private String reason;
-    private String result;
-    private Date   startTime;
-    private Set<Sos> targets;
+    private User            caller;
+    private Date            finishTime;
+    private int             id;
+    private String          location;
+    private String          reason;
+    private String          result;
+    private Date            startTime;
+    private Set<SosContact> targets;
 
     @OneToOne
     public User getCaller() {
@@ -81,11 +81,11 @@ public class SosLog {
     }
 
     @OneToMany
-    public Set<Sos> getTargets() {
+    public Set<SosContact> getTargets() {
         return targets;
     }
 
-    public void setTargets(Set<Sos> targets) {
+    public void setTargets(Set<SosContact> targets) {
         this.targets = targets;
     }
 }

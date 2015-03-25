@@ -28,6 +28,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserById(int id) {
+        List r = ht.find("from User where id=?", id);
+        if (r.size() == 0) {
+            throw new UserNotFoundException("用户ID：" + id);
+        }
+        return (User) r.get(0);
+    }
+
+    @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List r = ht.find("from User where username=?", username);

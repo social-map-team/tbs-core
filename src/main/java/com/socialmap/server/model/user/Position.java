@@ -9,7 +9,21 @@ import javax.persistence.Embeddable;
 public class Position {
     private float lat; //纬度
     private float lng; //经度
-    private float range; //误差范围，单位：米
+    private float radius; //误差范围，单位：米
+
+    public Position() {
+
+    }
+
+    /**
+     * @param p 格式是“经度:纬度:半径”
+     */
+    public Position(String p) {
+        String[] parts = p.split(":");
+        lng = Float.parseFloat(parts[0]);
+        lat = Float.parseFloat(parts[1]);
+        radius = Float.parseFloat(parts[2]);
+    }
 
     public float getLat() {
         return lat;
@@ -27,11 +41,11 @@ public class Position {
         this.lng = lng;
     }
 
-    public float getRange() {
-        return range;
+    public float getRadius() {
+        return radius;
     }
 
-    public void setRange(float range) {
-        this.range = range;
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
 }

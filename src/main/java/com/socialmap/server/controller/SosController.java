@@ -1,7 +1,7 @@
 package com.socialmap.server.controller;
 
 import com.socialmap.server.ConsoleConnector;
-import com.socialmap.server.model.sos.Sos;
+import com.socialmap.server.model.sos.SosContact;
 import com.socialmap.server.model.user.User;
 import com.socialmap.server.service.UserService;
 import com.socialmap.server.share.SosCaller;
@@ -43,24 +43,24 @@ public class SosController {
 
     @RequestMapping(value = "/sos/contact", method = POST)
     @Transactional
-    public void addSosContact(@Valid Sos sos, @RequestParam String relationship) {
+    public void addSosContact(@Valid SosContact sosContact, @RequestParam String relationship) {
         // 获取当前用户
         User user = userService.getCurrentUser();
         // 添加新的sos联系人
-        user.getSosContact().put(relationship, sos);
+        user.getSosContacts().put(relationship, sosContact);
         // 保存
         ht.saveOrUpdate(user);
     }
 
     @RequestMapping(value = "/sos/contact/{id}", method = PUT)
     @Transactional
-    public void addSosContact(@Valid Sos sos, @PathVariable int id) {
+    public void addSosContact(@Valid SosContact sosContact, @PathVariable int id) {
         // 获取当前用户
         User user = userService.getCurrentUser();
         Session session = sf.getCurrentSession();
         String hql = String.format("select s.id from User u, u.sosContact s where u.id=%d and s.id=%d", user.getId(), id);
         int sid = (int) session.createQuery(hql).uniqueResult();
-        sos.setId(sid);
+        sosContact.setId(sid);
         session.update(sid);
     }
 
@@ -71,8 +71,8 @@ public class SosController {
 
     @RequestMapping(value = "/api/sos", method = POST)
     @Transactional
-    public void create2(@Valid Sos sos) {
-        ht.save(sos);
+    public void create2(@Valid SosContact sosContact) {
+        ht.save(sosContact);
     }
 
     @RequestMapping(value = "/api/sos/{id}", method = DELETE)
@@ -87,7 +87,7 @@ public class SosController {
         // 获取当前用户
         User user = userService.getCurrentUser();
         // 获取当前用户所有的sos联系人
-        List<Sos> soses = (List<Sos>) ht.find("select u.sosContact from User u where u.id=?", user.getId());
+        List<SosContact> soses = (List<SosContact>) ht.find("select u.sosContact from User u where u.id=?", user.getId());
         return soses;
     }
 
@@ -100,13 +100,13 @@ public class SosController {
         caller.setPhone(user.getPhone());
         caller.setRealname(user.getRealname());
         caller.setUsername(user.getUsername());
-        List<Sos> soses = (List<Sos>) ht.find("select u.sosContact from User u where u.id=?", user.getId());
+        List<SosContact> soses = (List<SosContact>) ht.find("select u.sosContact from User u where u.id=?", user.getId());
         //Set<Sos> soses = user.getSoses();
         SosRequest request = new SosRequest();
         request.setCaller(caller);
         request.setReason("有大老虎");
         Set<SosTarget> targets = new HashSet<SosTarget>();
-        for(Sos s: soses){
+        for (SosContact s : soses) {
             targets.add(s.toSosTarget());
         }
         request.setTargets(targets);
@@ -115,14 +115,14 @@ public class SosController {
     }
 
     @RequestMapping(value = "/api/sos/{id}", method = GET)
-    public Sos read2(@PathVariable int id) {
-        return ht.get(Sos.class, id);
+    public SosContact read2(@PathVariable int id) {
+        return ht.get(SosContact.class, id);
     }
 
     @RequestMapping(value = "/api/sos/{id}", method = PUT)
     @Transactional
     public void update2(@PathVariable int id) {
-        ht.update(ht.get(Sos.class, id));
+        ht.update(ht.get(SosContact.class, id));
     }
 
 }

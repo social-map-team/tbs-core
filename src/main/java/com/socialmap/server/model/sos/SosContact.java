@@ -10,7 +10,7 @@ import javax.persistence.Id;
  * Created by yy on 3/6/15.
  */
 @Entity
-public class Sos {
+public class SosContact {
     private int    id;
     private boolean isRegisteredUser;
     private String name;

@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.socialmap.server.model.common.Image;
 import com.socialmap.server.model.common.Video;
 import com.socialmap.server.model.resource.Team;
-import com.socialmap.server.model.sos.Sos;
+import com.socialmap.server.model.sos.SosContact;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,37 +22,39 @@ import java.util.*;
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
-    private String about;
+    private String about = "";
     private Image avatar;
     private Image bgimage;
-    private Date birthday;
+    private Date birthday = new Date();
     private Set<ChatGroup> chatGroups = new HashSet<ChatGroup>();
     private Position currentPosition;
-    private String   email;
-    private boolean  emailValid;
-    private boolean enabled = true;
-    private int     exp;
-    private String  footprints;
-    private Gender  gender;
-    private int     id;
-    private String  idcard;
-    private Date    lastLoginTime;
-    private Date    lastLogoutTime;
-    private int     level;
-    private String  nickname;
-    private String  password;
-    private String  phone;
-    private boolean realValid;
-    private String  realname;
-    private Date    registerTime;
-    private Set<Role> roles = new HashSet<Role>();
-    private int securityLevel;
-    private Map<String, Sos> sosContact = new HashMap<String, Sos>();
-    private String status;// online offline
-    private Set<Team> teams = new HashSet<Team>();
-    private float  tripYears;
-    private String username;
-    private Set<Video> videos = new HashSet<Video>();
+    private String    email      = "";
+    private boolean   emailValid = false;
+    private boolean   enabled    = true;
+    private int       exp        = 0;
+    private String    footprints = "";
+    private Set<User> friends    = new HashSet<>();
+    private Gender    gender     = Gender.UNSELECTED;
+    private int id;
+    private String                  idcard          = "";
+    private Date                    lastLoginTime   = new Date();
+    private Date                    lastLogoutTime  = new Date();
+    private int                     level           = 0;
+    private String                  nickname        = "";
+    private String                  password        = "";
+    private String                  phone           = "";
+    private boolean                 realValid       = false;
+    private String                  realname        = "";
+    private Date                    registerTime    = new Date();
+    private Set<Role>               roles           = new HashSet<Role>();
+    private int                     securityLevel   = 0;
+    private boolean                 sharingPosition = false;
+    private Map<String, SosContact> sosContacts     = new HashMap<String, SosContact>();
+    private String                  status          = "offline";// online offline
+    private Set<Team>               teams           = new HashSet<Team>();
+    private float                   tripYears       = 0;
+    private String                  username        = "";
+    private Set<Video>              videos          = new HashSet<Video>();
 
     public enum Gender {
         MALE, FEMALE, UNSELECTED
@@ -65,6 +69,7 @@ public class User implements Serializable {
     }
 
     @OneToOne
+    @Cascade(CascadeType.ALL)
     public Image getAvatar() {
         return avatar;
     }
@@ -74,6 +79,7 @@ public class User implements Serializable {
     }
 
     @OneToOne
+    @Cascade(CascadeType.ALL)
     public Image getBgimage() {
         return bgimage;
     }
@@ -132,6 +138,20 @@ public class User implements Serializable {
 
     public void setFootprints(String footprints) {
         this.footprints = footprints;
+    }
+
+    @ManyToMany
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "USER_A_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_B_ID")
+    )
+    @Cascade(CascadeType.SAVE_UPDATE)
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
     }
 
     @Enumerated(EnumType.STRING)
@@ -250,17 +270,18 @@ public class User implements Serializable {
 
     @ManyToMany
     @JoinTable(
-            name = "SOS_RELATIONSHIP",
+            name = "SOS_CONTACTS",
             joinColumns = {@JoinColumn(name = "USER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "SOS_ID")}
     )
     @MapKeyColumn(name = "RELATIONSHIP")
-    public Map<String, Sos> getSosContact() {
-        return sosContact;
+    @Cascade(CascadeType.SAVE_UPDATE)
+    public Map<String, SosContact> getSosContacts() {
+        return sosContacts;
     }
 
-    public void setSosContact(Map<String, Sos> sosContact) {
-        this.sosContact = sosContact;
+    public void setSosContacts(Map<String, SosContact> sosContacts) {
+        this.sosContacts = sosContacts;
     }
 
     public String getStatus() {
@@ -331,5 +352,13 @@ public class User implements Serializable {
 
     public void setRealValid(boolean realValid) {
         this.realValid = realValid;
+    }
+
+    public boolean isSharingPosition() {
+        return sharingPosition;
+    }
+
+    public void setSharingPosition(boolean sharingPosition) {
+        this.sharingPosition = sharingPosition;
     }
 }
