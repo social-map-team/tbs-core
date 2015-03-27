@@ -22,6 +22,8 @@ import java.net.Socket;
 public class ConsoleConnector {
     public static final Logger log = LogManager.getLogger();
     private ConsoleInfo consoleInfo;
+    //@Value("${port.listening.gui}")
+    private Integer guiListeningPort = 19674;
     private ObjectMapper mapper = new ObjectMapper();
     private Thread sos = new Thread(new Runnable() {
         @Override
@@ -37,7 +39,7 @@ public class ConsoleConnector {
             public void run() {
                 try {
                     log.info("将要在本地9091端口监听");
-                    ServerSocket listener = new ServerSocket(9091);
+                    ServerSocket listener = new ServerSocket(guiListeningPort);
                     while (true) {
                         Socket console;
                         log.info("等待请求的到来");

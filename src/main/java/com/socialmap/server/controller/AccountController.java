@@ -153,7 +153,7 @@ public class AccountController {
      *
      * @param id
      */
-    @RequestMapping(value = "/profile/team/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/profile/sos/{id}", method = RequestMethod.DELETE)
     @Transactional
     public void deleteASosContact(@PathVariable int id) {
         User user = userService.getCurrentUser();
@@ -329,18 +329,6 @@ public class AccountController {
     }
 
     /**
-     * 注册时获取验证码，现在仅仅是模拟手机注册，验证码是1234
-     *
-     * @param phone
-     * @return 系统发送验证码成功返回true
-     */
-    @RequestMapping(value = "/register/vcode", method = RequestMethod.GET)
-    public boolean getVcode(@RequestParam String phone) {
-        // TODO 向手机号phone发送注册短信验证码
-        return true;
-    }
-
-    /**
      * 加入到一个团队中
      *
      * @param id
@@ -423,6 +411,22 @@ public class AccountController {
     }
 
     /**
+     * 向手机号或者电子邮件发送验证码
+     *
+     * @param phone
+     * @param email
+     * @return
+     */
+    @RequestMapping(value = "/register/vcode", method = RequestMethod.GET)
+    public boolean sendVcode(
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) String email
+    ) {
+        // TODO 向手机号或者电子邮件发送验证码
+        return true;
+    }
+
+    /**
      * 删除账户
      */
     @RequestMapping(value = "/register", method = RequestMethod.DELETE)
@@ -485,7 +489,7 @@ public class AccountController {
         if (username != null) {
             user.setUsername(username);
         }
-        if (about!=null){
+        if (about != null) {
             user.setAbout(about);
         }
     }

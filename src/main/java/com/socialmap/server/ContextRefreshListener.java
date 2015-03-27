@@ -1,5 +1,11 @@
 package com.socialmap.server;
 
+import com.socialmap.server.model.common.Image;
+import com.socialmap.server.model.sos.SosContact;
+import com.socialmap.server.model.user.Role;
+import com.socialmap.server.model.user.User;
+import com.socialmap.server.utils.App;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -7,6 +13,7 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 
 /**
  * Created by yy on 3/6/15.
@@ -19,16 +26,16 @@ public class ContextRefreshListener implements ApplicationListener<ContextRefres
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        /*Role rUser = new Role("ROLE_USER");
+        Role rUser = new Role("ROLE_USER");
         ht.save(rUser);
         Role rAdmin = new Role("ROLE_ADMIN");
         ht.save(rAdmin);
 
-        Sos s1 = new Sos();
+        SosContact s1 = new SosContact();
         s1.setPhone("11111111111");
         s1.setName("李四");
         ht.save(s1);
-        Sos s2 = new Sos();
+        SosContact s2 = new SosContact();
         s2.setPhone("22222222222");
         s2.setName("王五");
         ht.save(s2);
@@ -66,6 +73,6 @@ public class ContextRefreshListener implements ApplicationListener<ContextRefres
         u2.getRoles().add(rUser);
         u2.setAvatar(avatar);
         App.encryptPassword(u2);
-        ht.save(u2);*/
+        ht.save(u2);
     }
 }

@@ -15,7 +15,11 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
 
 import javax.servlet.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.EnumSet;
+import java.util.Properties;
 
 /**
  * Created by yy on 3/4/15.
@@ -27,6 +31,8 @@ public class AppInit implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext container) throws ServletException {
+        dropCreateDatabase();
+
         // 建立Spring的Application Context
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(AppConfig.class);
@@ -60,5 +66,30 @@ public class AppInit implements WebApplicationInitializer {
         OpenSessionInViewFilter session = new OpenSessionInViewFilter();
         container.addFilter("openSessionInViewFilter", session)
                 .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+    }
+
+    private void dropCreateDatabase() {
+        try {
+            String driver;
+            String url;
+            String user;
+            String pass;
+            Properties props = new Properties();
+            props.load(getClass().getResourceAsStream("/application.properties"));
+            driver = props.getProperty("jdbc.driver");
+            url = props.getProperty("jdbc.url");
+            user = props.getProperty("jdbc.username");
+            pass = props.getProperty("jdbc.password");
+
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(url, user, pass);
+            Statement stmt = conn.createStatement();
+            stmt.execute("drop database tbs");
+            stmt.execute("create database tbs");
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
